@@ -2,29 +2,28 @@ import requests
 from bs4 import BeautifulSoup
 import re
 import pandas as pd
-url = "http://tweetminster.co.uk/mps/party/labour/page:"
+
+base_url = "http://tweetminster.co.uk/mps/party/"
+cols = ['costituency', 'name', 'twitter_id', 'party']
 
 
-def get_info(tweeter, counter):
+def get_info(tweeter, party="Labour"):
     costituency = tweeter.find("h3").get_text()
-    tmp = re.sub("\s", "", tweeter.find("p").get_text()).split("Labour")
+    tmp = re.sub("[\n\t]", "", tweeter.find("p").get_text()).split(party)
     return pd.DataFrame({'costituency': costituency,
-                         'name': tmp[0],
-                         'twitter_id': tmp[1],
-                         'party': 'Labour'}, index=[counter])
+                         'name': tmp[0].strip(),
+                         'twitter_id': tmp[1].strip(),
+                         'party': party}, index=[0])
 
 
-def scrape(page=1, counter=0):
-    res = requests.get(url + str(page))
+def scrape(page=1, party="Labour"):
+    url = base_url + party.lower() + '/page:' + str(page)
+    res = requests.get(url)
     soup = BeautifulSoup(res.text)
     tweeters = soup.findAll('div', {'class': 'tweeters'})
-    output = pd.DataFrame(columns=["name", "twitter_id", "party",
-                                   "costituency"])
-    for tweeter in tweeters:
-        output = pd.concat([output, get_info(tweeter, counter)])
-        counter += 1
-    if page > 17:
-        return output
-    else:
-        page += 1
-        return pd.concat([output, scrape(page, counter=counter)])
+    try:
+        output = pd.concat(
+            map(lambda x: get_info(x, party=party), tweeters))
+    except ValueError:
+        return pd.DataFrame(columns=cols)
+    return pd.concat([output, scrape(page + 1, party=party)])
