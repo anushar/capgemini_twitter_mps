@@ -5,18 +5,6 @@ import sys
 import pandas as pd
 from time import sleep
  
-
-
-################# set up the API #################
-filename = 'twitter_credentials.csv'
-f = open(filename,'r')
-reader = csv.reader(f)
-
-credentials = {}
-for line in reader:
-  credentials[line[0]] = line[1]
-
-
 class TwitterTimelineParser(object):
 
     def __init__(self,credentials):
@@ -50,12 +38,23 @@ class TwitterTimelineParser(object):
     def set_handles(self,handles):
         self.handles = handles
 
+#### read the credential from file in a dict #### 
 
+filename = 'twitter_credentials.csv'
+f = open(filename,'r')
+reader = csv.reader(f)
+
+credentials = {}
+for line in reader:
+  credentials[line[0]] = line[1]
+
+#### read the handles of mp for party #### 
 party = 'labour'
 input_file = party +"_mp_twitter_ids.csv"
 handles = pd.read_csv(input_file)['twitter_id']
 
-#should pass all other params in an object
+#note, should pass all other params in an object
+#instead of setting in constructor
 parser = TwitterTimelineParser(credentials)
 parser.set_handles(handles)
 result = parser.get_timelines()
