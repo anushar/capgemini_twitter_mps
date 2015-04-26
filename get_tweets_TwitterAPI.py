@@ -4,6 +4,10 @@ import datetime
 from time import sleep
 api = TwitterAPI()
 
+"""
+get tweets with TwitterAPI
+"""
+
 
 def get_timeline(handle):
     print "obtaining tweets for user {}".format(handle)
