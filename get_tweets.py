@@ -26,13 +26,12 @@ api = twitter.Api(consumer_key=consumer_key,consumer_secret=consumer_secret, \
 conservative_details = pd.read_csv('conservative_mp_twitter_ids.csv')
 labour_details = pd.read_csv('labour_mp_twitter_ids.csv')
 
-################# get tweets for one mp for testing #################
 
-tweets = []
-#print [s.text for s in api.GetUserTimeline(screen_name='@BarackObama')]
 
+#test
 authorised = 0
 non_authorised = 0
+
 for twitter_id in conservative_details['twitter_id']:
   
   
