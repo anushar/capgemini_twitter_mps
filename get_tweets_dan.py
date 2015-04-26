@@ -4,10 +4,6 @@ import datetime
 from time import sleep
 api = TwitterAPI()
 
-min_date = datetime.datetime(2015, 3, 25)
-params = {'count': 200}
-cols = ['created_at', 'favorite_count', 'id', 'retweet_count', 'text']
-
 
 def get_timeline(handle):
     print "obtaining tweets for user {}".format(handle)
