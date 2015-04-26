@@ -1,6 +1,9 @@
 import pandas as pd
 import twitter
 import csv
+"""
+get tweets with the twitter API
+"""
 
 ################# set up the API #################
 
