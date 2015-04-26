@@ -2,14 +2,10 @@ from TwitterAPI import TwitterAPI
 import pandas as pd
 import datetime
 from time import sleep
-api = TwitterAPI('4Mn71tKklQQrIcxHiauceJLTr',
-                 'clnwXEDX1JgzPDnesNwRNK98kcWpl1sQtLqiVkHfHwZBHlbz3c',
-                 '363153981-9e4t4xlcmNE9hAPqaqWXHz5Nupxm29jidTh8gBoY',
-                 'BaewMtWhngkXloKxN07iAe38NrYhj5TXhcVChkntD69Y5')
+api = TwitterAPI()
 
 min_date = datetime.datetime(2015, 3, 25)
 params = {'count': 200}
-calls_limit_period = datetime.timedelta(minutes=15)
 cols = ['created_at', 'favorite_count', 'id', 'retweet_count', 'text']
 
 
