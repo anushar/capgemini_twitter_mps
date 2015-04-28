@@ -26,14 +26,15 @@ tweets = pd.concat([labour_tweets,conservative_tweets],ignore_index=True)
 tweets['text'] = tweets['text'].apply(lambda tweet : nlp_utils.clean_tweet(tweet) if not isinstance(tweet,float) else 'nan')
 
 
-
 #compute the word frequency distribution by
 #first pasting all tweets together
+"""
 all_words = []
 for tweet in tweets['text']:
     tweets.extend(tweet.split())
 
 print nltk.FreqDist(tweets).most_common(10)
+"""
 
 
 
@@ -44,26 +45,36 @@ print nltk.FreqDist(tweets).most_common(10)
 features_and_labels_dict = {}
 
 
+#string for feature headers
+#if we group by mp then our features is number of occurences
+#if cases are individual tweets than the header string is a boolean denoting if the word is to be found in the tweet
+
+header_string  = ["number of","contains"]
+
 for idx,row in tweets.iterrows():
 
-    features  = nlp_utils.document_features(row['text'].split(),keywords)
+
+    features  = nlp_utils.document_features(row['text'].split(),keywords,header_string[0])
+
 
     if row['user'] not in features_and_labels_dict:
-        features_and_labels_dict[user] = []
-        features_and_labels_dict[user].append((features,row['party']))
+        features_and_labels_dict[row['user']] = []
+        features_and_labels_dict[row['user']].append((features,row['party']))
     else:
         for k,v in features.items():
 
-            features_and_labels_dict[user][0][0][k] += v
+            features_and_labels_dict[row['user']][0][0][k] += v
+
 
 
 #serialize
-pickle.dump(features_and_labels_dict.values(),open('features_and_labels','wb'))
+pickle.dump(features_and_labels_dict.values(),open('features_and_labels_grouped_by_mp','wb'))
 
 #write as csv
+
 """
 n_row = 0
-f = open("features_and_labels.csv",'wb')
+f = open("features_and_labels_grouped_by_mp.csv",'wb')
 for (features,label) in features_and_labels:
     if n_row == 0:
         for k in features.keys():
