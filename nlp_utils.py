@@ -66,9 +66,9 @@ def find_tags(tag_prefix,tagged_tex):
 	cfd = nltk.ConditionalFreqDist( (tag,word) for (word,tag) in tagged_text if tag.startswith(tag_prefix))
 	return dict( (tag,cfd[tag].keys()[:5]) for tag in cfd.conditions() )
 
-def document_features(document,word_features):
+def document_features(document,word_features,header_string):
 	document_words = set(document)
 	features = {}
 	for word in word_features:
-		features['contains(%s)' % word] = (word in document_words)
+		features[header_string+'(%s)' % word] = (word in document_words)
 	return features
