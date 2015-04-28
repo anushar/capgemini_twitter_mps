@@ -68,7 +68,7 @@ for idx,row in tweets.iterrows():
 
 
 #serialize
-pickle.dump(features_and_labels_dict.values(),open('features_and_labels_grouped_by_mp','wb'))
+pickle.dump(features_and_labels_dict.values(),open('features_and_party_labels_grouped_by_mp','wb'))
 
 #write as csv
 
