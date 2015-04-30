@@ -31,29 +31,36 @@ rm(conservative)
 
 
 
+######## count and plot the tweets by day and party ########
 tweet.count <- ddply(parties,.(date,party), summarize, freq=length(date))
+
+######## remove NA and final incomplete day
+tweet.count <- tweet.count[complete.cases(tweet.count),]
+tweet.count <- tweet.count[-c(127,128),]
 
 p <- ggplot(tweet.count, aes(x = as.Date(date), y = freq, colour = party)) + geom_line() +
   scale_x_date() + xlab("Day") + ylab("Daily tweets") + theme_bw()
 p
 
 
+######### count the median number of likes per day per party and plot
+engagement.summaries <- ddply(parties,.(date,party), summarize,
+                           median.fc=median(favorite_count),
+                           median.rtc=median(retweet_count),
+                           mean.fc=mean(favorite_count),
+                           mean.rtc=mean(retweet_count),
+                           q50.fc = quantile(favorite_count,probs=0.5,na.rm=TRUE),
+                           q50.rtc = quantile(retweet_count,probs=0.5,na.rm=TRUE)
+                           )
 
-
-
-
-
-
-tweet.count <- tweet.count[complete.cases(tweet.count),]
-
-tweet.count <- tweet.count[-c(127,128),]
-
-p <- ggplot(tweet.count, aes(x = date, y = freq, colour = party)) + geom_line() +
-    scale_x_date() + xlab("") + ylab("Daily tweets") + theme_bw()
+p <- ggplot(engagement.summaries, aes(x = as.Date(date), y = mean.fc, colour = party)) + geom_line() +
+  scale_x_date() + xlab("Day") + ylab("Daily mean favourite count") + theme_bw()
 p
 
-######### count the mean number of likes per day per party and plot
-mean.likes <- ddply(parties,.(date,party), summarize, mf=length(date))
+p <- ggplot(engagement.summaries, aes(x = as.Date(date), y = mean.rtc, colour = party)) + geom_line() +
+  scale_x_date() + xlab("Day") + ylab("Daily mean retweet count") + theme_bw()
+p
+
 
 
 
