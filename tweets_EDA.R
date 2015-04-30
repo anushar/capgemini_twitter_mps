@@ -24,7 +24,7 @@ conservative$time <- format(conservative$created_at,"%H:%M:%S")
 
 parties <- rbind(labour,conservative)
 parties <- subset(parties, select = -created_at)
-parties$date <- strptime(parties$date, "%Y-%m-%d")
+parties$date <- as.POSIXct(strptime(parties$date, "%Y-%m-%d"))
 
 rm(labour)
 rm(conservative)
@@ -33,9 +33,27 @@ rm(conservative)
 
 tweet.count <- ddply(parties,.(date,party), summarize, freq=length(date))
 
+p <- ggplot(tweet.count, aes(x = as.Date(date), y = freq, colour = party)) + geom_line() +
+  scale_x_date() + xlab("Day") + ylab("Daily tweets") + theme_bw()
+p
+
+
+
+
+
+
+
+
+tweet.count <- tweet.count[complete.cases(tweet.count),]
+
+tweet.count <- tweet.count[-c(127,128),]
+
 p <- ggplot(tweet.count, aes(x = date, y = freq, colour = party)) + geom_line() +
     scale_x_date() + xlab("") + ylab("Daily tweets") + theme_bw()
 p
+
+######### count the mean number of likes per day per party and plot
+mean.likes <- ddply(parties,.(date,party), summarize, mf=length(date))
 
 
 
