@@ -1,6 +1,6 @@
 rm(list=ls())
 require(ggplot2)
-require(tm)
+require(wordcloud)
 require(plyr)
 
 labour <- read.csv("labour_tweets.csv")
@@ -61,9 +61,42 @@ p <- ggplot(engagement.summaries, aes(x = as.Date(date), y = mean.rtc, colour = 
   scale_x_date() + xlab("Day") + ylab("Daily mean retweet count") + theme_bw()
 p
 
+######### compute histograms of tweet posts by user
+
+######### compute wordcloud with word size prop to user number of posts
+tweet.stats.by.user <- ddply(parties,.(user,party), summarize, freq=length(user),
+                             mean.fav=sum(favorite_count)/length(user),
+                             mean.rt=sum(retweet_count)/length(user),
+                             median.fav=median(favorite_count),
+                             median.rt=median(retweet_count)
+                             )
+
+
+
+#tweet.count.by.user$color <- lapply(function(x) {if(x == "labour") "red" else "blue"},tweet.count.by.user$user)
+
+#map the mps to blue or red color
+tweet.stats.by.user$color <- unlist(lapply(tweet.stats.by.user$party,function(x) {if(x == "labour") "red" else "blue"}))
+
+#there are a couple of NA users
+tweet.stats.by.user <- tweet.stats.by.user[complete.cases(tweet.stats.by.user),]
+
+#do some wordclouds
+size <- tweet.stats.by.user$median.rt
+
+wordcloud(tweet.stats.by.user$user,
+          size,
+          rot.per=0.0,
+          colors=tweet.stats.by.user$color,
+          scale=c(2,1),  
+          max.words = 20
+          )
 
 
 
 
 
+######### get the top ten in count,likes,retweets
 
+#compare Cameron and Miliband
+top.dudes <- subset(tweet.stats.by.user,user  %in% c('@Ed_Miliband','@David_Cameron'))
