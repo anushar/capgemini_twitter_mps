@@ -16,6 +16,7 @@ print "we have " + str(len(keywords)) + " keywords."
 #read the labour and conservative tweets csvs
 labour_tweets = pd.read_csv('labour_tweets.csv')
 conservative_tweets = pd.read_csv('conservative_tweets.csv')
+libdem_tweets = pd.read_csv('conservative_tweets.csv')
 
 #set party and concat
 labour_tweets['party'] = 'labour'

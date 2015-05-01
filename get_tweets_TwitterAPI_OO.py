@@ -4,7 +4,7 @@ import csv
 import sys
 import pandas as pd
 from time import sleep
- 
+
 class TwitterTimelineParser(object):
 
     def __init__(self,credentials):
@@ -30,6 +30,9 @@ class TwitterTimelineParser(object):
      df['user'] = handle
      df['created_at'] = pd.tseries.tools.to_datetime(df['created_at'])
      df = df[df['created_at'] >= min_date]
+
+     print df.columns
+
      return df.sort(columns="created_at", ascending=False)
 
     def get_timelines(self):
@@ -38,7 +41,7 @@ class TwitterTimelineParser(object):
     def set_handles(self,handles):
         self.handles = handles
 
-#### read the credential from file in a dict #### 
+#### read the credential from file in a dict ####
 
 filename = 'twitter_credentials.csv'
 f = open(filename,'r')
@@ -48,8 +51,9 @@ credentials = {}
 for line in reader:
   credentials[line[0]] = line[1]
 
-#### read the handles of mp for party #### 
-party = 'labour'
+#### read the handles of mp for party ####
+#party = 'labour'
+party = 'libdem'
 input_file = party +"_mp_twitter_ids.csv"
 handles = pd.read_csv(input_file)['twitter_id']
 
