@@ -2,6 +2,7 @@ import requests
 from bs4 import BeautifulSoup
 import re
 import pandas as pd
+from ipdb import set_trace
 
 base_url = "http://tweetminster.co.uk/mps/party/"
 cols = ['costituency', 'name', 'twitter_id', 'party']
@@ -17,7 +18,8 @@ def get_info(tweeter, party="Labour"):
 
 
 def scrape(page=1, party="Labour"):
-    url = base_url + party.lower() + '/page:' + str(page)
+    party_url = "_".join(party.lower().split())
+    url = base_url + party_url + '/page:' + str(page)
     res = requests.get(url)
     soup = BeautifulSoup(res.text)
     tweeters = soup.findAll('div', {'class': 'tweeters'})
