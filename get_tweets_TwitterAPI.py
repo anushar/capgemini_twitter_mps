@@ -1,4 +1,5 @@
 from TwitterAPI import TwitterAPI
+from TwitterAPI import TwitterConnectionError
 import datetime
 import csv
 import sys
@@ -21,10 +22,25 @@ cols = ['created_at', 'favorite_count', 'id', 'retweet_count', 'text']
 def get_timeline(handle):
     print "obtaining tweets for user {}".format(handle)
     params.update({'screen_name': handle})
-    res = api.request('statuses/user_timeline', params)
+    try:
+        res = api.request('statuses/user_timeline', params)
+    except TwitterConnectionError:
+        return
     if res.get_rest_quota()['remaining'] == 0:
-        sleep(res.get_rest_quota()['reset'] - datetime.datetime.now())
-    if res.status_code != 200:
+        time = (res.get_rest_quota()['reset'] -
+                datetime.datetime.now()).seconds + 10
+        print "sleeping {} seconds".format(time)
+        sleep(time)
+    if res.status_code == 404:
+        print [x['message'] for x in res.json()['errors']]
+        return
+    elif res.status_code == 401:
+        print res.json()['error']
+        return
+    elif res.status_code == 429:
+        sleep(15 * 60)
+    elif res.status_code != 200:
+        set_trace()
         return
     try:
         df = pd.DataFrame(res.json())[cols]
@@ -32,7 +48,7 @@ def get_timeline(handle):
         return
     df['user'] = handle
     df['created_at'] = pd.tseries.tools.to_datetime(df['created_at'])
-    df = df[df['created_at'] >= min_date]
+    #df = df[df['created_at'] >= min_date]
     return df.sort(columns="created_at", ascending=False)
 
 
