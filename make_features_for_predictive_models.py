@@ -15,6 +15,7 @@ print "we have " + str(len(keywords)) + " keywords."
 
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 ########### read the labour and conservative tweets csvs
 #labour_tweets = pd.read_csv('labour_tweets.csv')
 #conservative_tweets = pd.read_csv('conservative_tweets.csv')
@@ -32,6 +33,8 @@ tweets=libdem_tweets
 =======
 =======
 >>>>>>> a59494c141883b09b040573acfee547a3dabe223
+=======
+>>>>>>> a59494c141883b09b040573acfee547a3dabe223
 #read the labour and conservative tweets csvs
 labour_tweets = pd.read_csv('labour_tweets.csv')
 conservative_tweets = pd.read_csv('conservative_tweets.csv')
@@ -41,6 +44,9 @@ labour_tweets['party'] = 'labour'
 conservative_tweets['party'] = 'conservative'
 tweets = pd.concat([labour_tweets,conservative_tweets],ignore_index=True)
 <<<<<<< HEAD
+<<<<<<< HEAD
+>>>>>>> a59494c141883b09b040573acfee547a3dabe223
+=======
 >>>>>>> a59494c141883b09b040573acfee547a3dabe223
 =======
 >>>>>>> a59494c141883b09b040573acfee547a3dabe223
@@ -50,7 +56,10 @@ tweets['text'] = tweets['text'].apply(lambda tweet : nlp_utils.clean_tweet(tweet
 
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 print tweets
+=======
+>>>>>>> a59494c141883b09b040573acfee547a3dabe223
 =======
 >>>>>>> a59494c141883b09b040573acfee547a3dabe223
 =======
@@ -107,6 +116,7 @@ header_string = ["number_of","contains"]
 targets = ['party','favorite_count','retweet_count']
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 features_and_labels_group_by_mp(tweets,"number of")
 
 #features_and_labels(tweets,"contains")
@@ -117,6 +127,8 @@ features_and_labels_group_by_mp(tweets,"number of")
 =======
 =======
 >>>>>>> a59494c141883b09b040573acfee547a3dabe223
+=======
+>>>>>>> a59494c141883b09b040573acfee547a3dabe223
 #features_and_labels_group_by_mp(tweets,"number of")
 #features_and_labels(tweets,"contains")
 
@@ -124,6 +136,9 @@ for target in targets:
     features_and_labels(tweets)
     features_and_labels_group_by_mp(tweets)
 <<<<<<< HEAD
+<<<<<<< HEAD
+>>>>>>> a59494c141883b09b040573acfee547a3dabe223
+=======
 >>>>>>> a59494c141883b09b040573acfee547a3dabe223
 =======
 >>>>>>> a59494c141883b09b040573acfee547a3dabe223

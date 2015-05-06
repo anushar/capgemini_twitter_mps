@@ -7,6 +7,7 @@ import matplotlib.pyplot as plt
 
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 features_and_labels = pickle.load(open('features_and_party_labels','rb'))
 
 #unlist as each element is a list of size one where the element
@@ -15,12 +16,17 @@ features_and_labels = pickle.load(open('features_and_party_labels','rb'))
 =======
 =======
 >>>>>>> a59494c141883b09b040573acfee547a3dabe223
+=======
+>>>>>>> a59494c141883b09b040573acfee547a3dabe223
 data = pickle.load(open('features_and_party_labels_grouped_by_mp','rb'))
 
 #unlist as each element is a list of size one where the element
 #is a tuple with features dict as zeroth element and party label as first
 features_and_labels = [item for sublist in data for item in sublist]
 <<<<<<< HEAD
+<<<<<<< HEAD
+>>>>>>> a59494c141883b09b040573acfee547a3dabe223
+=======
 >>>>>>> a59494c141883b09b040573acfee547a3dabe223
 =======
 >>>>>>> a59494c141883b09b040573acfee547a3dabe223
@@ -36,8 +42,12 @@ train_fraction = 0.7
 
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 repeats = 1
 n_folds = 10
+=======
+repeats = 10
+>>>>>>> a59494c141883b09b040573acfee547a3dabe223
 =======
 repeats = 10
 >>>>>>> a59494c141883b09b040573acfee547a3dabe223
@@ -58,9 +68,12 @@ for r in range(repeats):
 
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 
     cv = cross_validation.KFold(len(train_set), n_folds = 10, indices = True, shuffle = True, random_state = 1)
 =======
+=======
+>>>>>>> a59494c141883b09b040573acfee547a3dabe223
 =======
 >>>>>>> a59494c141883b09b040573acfee547a3dabe223
     #print len(train_set)
@@ -69,6 +82,9 @@ for r in range(repeats):
 
     cv = cross_validation.KFold(len(train_set), n_folds = 10, indices = True, shuffle = False, random_state = None)
 <<<<<<< HEAD
+<<<<<<< HEAD
+>>>>>>> a59494c141883b09b040573acfee547a3dabe223
+=======
 >>>>>>> a59494c141883b09b040573acfee547a3dabe223
 =======
 >>>>>>> a59494c141883b09b040573acfee547a3dabe223
@@ -76,6 +92,7 @@ for r in range(repeats):
 
     for train_cv, eval_cv in cv:
 
+<<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
 
@@ -103,6 +120,8 @@ most_informative_features = []
 =======
 =======
 >>>>>>> a59494c141883b09b040573acfee547a3dabe223
+=======
+>>>>>>> a59494c141883b09b040573acfee547a3dabe223
         classifier = nltk.NaiveBayesClassifier.train(train_set[train_cv[0]:train_cv[len(train_cv)-1]])
         accuracy = nltk.classify.accuracy(classifier,train_set[eval_cv[0]:eval_cv[len(eval_cv)-1]])
 
@@ -117,6 +136,9 @@ most_informative_features = []
 #test the classifiers on the test set
 test_accuracies = []
 <<<<<<< HEAD
+<<<<<<< HEAD
+>>>>>>> a59494c141883b09b040573acfee547a3dabe223
+=======
 >>>>>>> a59494c141883b09b040573acfee547a3dabe223
 =======
 >>>>>>> a59494c141883b09b040573acfee547a3dabe223
@@ -129,7 +151,10 @@ for classifier in classifiers:
     print classifier.show_most_informative_features()
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
     most_informative_features.append(classifier.most_informative_features())
+=======
+>>>>>>> a59494c141883b09b040573acfee547a3dabe223
 =======
 >>>>>>> a59494c141883b09b040573acfee547a3dabe223
 =======
@@ -147,8 +172,11 @@ plt.ylabel("Frequency")
 plt.show()
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 
 pickle.dump(most_informative_features,open('most_informative_features','wb'))
+=======
+>>>>>>> a59494c141883b09b040573acfee547a3dabe223
 =======
 >>>>>>> a59494c141883b09b040573acfee547a3dabe223
 =======
