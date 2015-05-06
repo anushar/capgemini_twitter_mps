@@ -56,8 +56,11 @@ def get_timelines(file_path):
     handles = pd.read_csv(file_path)['twitter_id']
     return pd.concat(map(lambda x: get_timeline(x), handles))
 <<<<<<< HEAD
+<<<<<<< HEAD
 
 res = get_timelines('libdem_mp_twitter_ids.csv')
 res.to_csv('libdem_tweets.csv',encoding='utf-8')
+=======
+>>>>>>> a59494c141883b09b040573acfee547a3dabe223
 =======
 >>>>>>> a59494c141883b09b040573acfee547a3dabe223
