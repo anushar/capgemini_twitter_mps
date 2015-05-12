@@ -13,28 +13,22 @@ keywords = map(lambda kw : kw.lower(),keywords)
 
 print "we have " + str(len(keywords)) + " keywords."
 
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
+
 ########### read the labour and conservative tweets csvs
-#labour_tweets = pd.read_csv('labour_tweets.csv')
-#conservative_tweets = pd.read_csv('conservative_tweets.csv')
+labour_tweets = pd.read_csv('labour_tweets.csv')
+conservative_tweets = pd.read_csv('conservative_tweets.csv')
 
-libdem_tweets = pd.read_csv('libdem_tweets.csv')
+#libdem_tweets = pd.read_csv('libdem_tweets.csv')
 
-print libdem_tweets
+#print libdem_tweets
 
 #set party and concat
-#labour_tweets['party'] = 'labour'
-#conservative_tweets['party'] = 'conservative'
-libdem_tweets['party'] = 'libdem'
-#tweets = pd.concat([labour_tweets,conservative_tweets],ignore_index=True)
-tweets=libdem_tweets
-=======
-=======
->>>>>>> a59494c141883b09b040573acfee547a3dabe223
-=======
->>>>>>> a59494c141883b09b040573acfee547a3dabe223
+labour_tweets['party'] = 'labour'
+conservative_tweets['party'] = 'conservative'
+#libdem_tweets['party'] = 'libdem'
+tweets = pd.concat([labour_tweets,conservative_tweets],ignore_index=True)
+#tweets=libdem_tweets
+
 #read the labour and conservative tweets csvs
 labour_tweets = pd.read_csv('labour_tweets.csv')
 conservative_tweets = pd.read_csv('conservative_tweets.csv')
@@ -43,27 +37,12 @@ conservative_tweets = pd.read_csv('conservative_tweets.csv')
 labour_tweets['party'] = 'labour'
 conservative_tweets['party'] = 'conservative'
 tweets = pd.concat([labour_tweets,conservative_tweets],ignore_index=True)
-<<<<<<< HEAD
-<<<<<<< HEAD
->>>>>>> a59494c141883b09b040573acfee547a3dabe223
-=======
->>>>>>> a59494c141883b09b040573acfee547a3dabe223
-=======
->>>>>>> a59494c141883b09b040573acfee547a3dabe223
+
 
 #clean
 tweets['text'] = tweets['text'].apply(lambda tweet : nlp_utils.clean_tweet(tweet) if not isinstance(tweet,float) else 'nan')
 
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-print tweets
-=======
->>>>>>> a59494c141883b09b040573acfee547a3dabe223
-=======
->>>>>>> a59494c141883b09b040573acfee547a3dabe223
-=======
->>>>>>> a59494c141883b09b040573acfee547a3dabe223
+
 
 
 def features_and_labels_group_by_mp(tweets,header_string="number of",target='party'):
@@ -114,9 +93,7 @@ def features_and_labels(tweets,header_string="contains",target='party'):
 
 header_string = ["number_of","contains"]
 targets = ['party','favorite_count','retweet_count']
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
+
 features_and_labels_group_by_mp(tweets,"number of")
 
 #features_and_labels(tweets,"contains")
@@ -124,21 +101,11 @@ features_and_labels_group_by_mp(tweets,"number of")
 #for target in targets:
 #    features_and_labels(tweets)
 #    features_and_labels_group_by_mp(tweets)
-=======
-=======
->>>>>>> a59494c141883b09b040573acfee547a3dabe223
-=======
->>>>>>> a59494c141883b09b040573acfee547a3dabe223
+
 #features_and_labels_group_by_mp(tweets,"number of")
 #features_and_labels(tweets,"contains")
 
-for target in targets:
-    features_and_labels(tweets)
-    features_and_labels_group_by_mp(tweets)
-<<<<<<< HEAD
-<<<<<<< HEAD
->>>>>>> a59494c141883b09b040573acfee547a3dabe223
-=======
->>>>>>> a59494c141883b09b040573acfee547a3dabe223
-=======
->>>>>>> a59494c141883b09b040573acfee547a3dabe223
+#for target in targets:
+    #features_and_labels(tweets)
+    #features_and_labels_group_by_mp(tweets)
+
