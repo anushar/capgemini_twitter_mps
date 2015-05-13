@@ -6,36 +6,50 @@ require(wordcloud)
 require(reshape2)
 
 #load the trained classifier and features labels
-
+load("rf_party_classifier.rda")
 features <- row.names(importance(final.model))
+
+
+features <- c("number.of.austerity.","number.of.businesses.","number.of.cameron.","number.of.chaos.",       
+"number.of.conservative.","number.of.crisis." ,"number.of.cuts.","number.of.economy.",  
+"number.of.end.","number.of.income.","number.of.jobs.","number.of.labour.",      
+"number.of.register.","number.of.scrap.","number.of.taxes.","number.of.tories.",      
+"number.of.unemployment.","number.of.vote.")
+
 
 data <- read.csv('features_and_party_labels_grouped_by_mp.csv')
 
 data <- subset(data, select = c("party",features))
 
-
 df <- ddply(data,.(party),colwise(sum))
-
-# first remember the names
-n <- names(df)
 
 # transpose all but the first column (name)
 df<- as.data.frame(t(df[,-1]))
-colnames(df) <- n
+
 df$feature <- factor(row.names(df))
 
 str(df) # Check the column types
 names(df) <- c("conservative","labour","feature")
 
-df$feature <- mapvalues(df$feature, from = c("number_of.austerity.", "number_of.businesses.",
-                                             "number_of.cameron.","number_of.chaos.",
-                                             "number_of.conservative.","number_of.crisis.",
-                                             "number_of.cuts.","number_of.economy.",
-                                             "number_of.end.","number_of.income.",
-                                             "number_of.jobs.","number_of.labour.",
-                                             "number_of.register.","number_of.scrap.",
-                                             "number_of.taxes.","number_of.tories.",
-                                             "number_of.unemployment.","number_of.vote."),
+df <- subset(df, df$feature %in% c("number.of.austerity.", "number.of.businesses.",
+                                   "number.of.cameron.","number.of.chaos.",
+                                   "number.of.conservative.","number.of.crisis.",
+                                   "number.of.cuts.","number.of.economy.",
+                                   "number.of.end.","number.of.income.",
+                                   "number.of.jobs.","number.of.labour.",
+                                   "number.of.register.","number.of.scrap.",
+                                   "number.of.taxes.","number.of.tories.",
+                                   "number.of.unemployment.","number.of.vote."))
+
+df$feature <- mapvalues(df$feature, from = c("number.of.austerity.", "number.of.businesses.",
+                                             "number.of.cameron.","number.of.chaos.",
+                                             "number.of.conservative.","number.of.crisis.",
+                                             "number.of.cuts.","number.of.economy.",
+                                             "number.of.end.","number.of.income.",
+                                             "number.of.jobs.","number.of.labour.",
+                                             "number.of.register.","number.of.scrap.",
+                                             "number.of.taxes.","number.of.tories.",
+                                             "number.of.unemployment.","number.of.vote."),
                                     to = c("austerity", "businesses",
                                            "cameron","chaos",
                                            "conservative","crisis",
@@ -70,14 +84,14 @@ names(ratio) <- c("feature","lab.to.cons")
 ratio.df <- arrange(ratio,desc(lab.to.cons))
 
 #map ratio to color
-ratio.df$party.color <- unlist(lapply(ratio.df$lab.to.cons,function(x) {if(x < 1) "red" else "blue"}))
+ratio.df$party.color <- unlist(lapply(ratio.df$lab.to.cons,function(x) {if(x < 1) "#d50000" else "#0087dc"}))
 
 ################ bubble chart
 #,colour=party.color
 ratio.df$feature <- reorder(ratio.df$feature, ratio.df$lab.to.cons)
 p <- ggplot(data=ratio.df, aes(x=factor(feature), y=lab.to.cons)) +
-  geom_point(aes(colour=party.color,size=lab.to.cons)) + 
-  geom_point(shape = 1,aes(size=lab.to.cons),colour = "black")+
+  geom_point(aes(colour=party.color,size=10)) + 
+  geom_point(shape = 1,aes(size=10),colour = "black")+
   geom_abline(intercept = 0, slope = 0) + 
   scale_size_continuous(range=c(8,20)) +
   xlab('keyword') +
@@ -87,6 +101,15 @@ p <- ggplot(data=ratio.df, aes(x=factor(feature), y=lab.to.cons)) +
   theme(axis.text.x = element_text(angle = 45, hjust = 1,size=12),legend.position = "none",
         panel.grid.major = element_blank(), panel.grid.minor = element_blank()) +
   #scale_y_continuous(breaks=NULL)
-  scale_y_log10(breaks=NULL)
+  scale_y_log10(breaks=c(0.1,0.25,0.5,1,2.5,5,10))
 p
 
+################ treemap
+require(treemap)
+require(portfolio)
+
+df$party.color <- unlist(lapply(df$party,function(x) {if(x == "labour") "#d50000" else "#0087dc"}))
+
+treemap(df,index=c("feature","party"),vSize="feature_count",type="color",vColor="party.color",
+        algorithm="pivotSize",fontsize.labels=c(12,0),border.col=c("#FFFFFF","#000000"),
+        border.lwds=c(4,0),bg.labels = 0,fontfamily.labels="mono",title="")
